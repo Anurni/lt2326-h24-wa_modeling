@@ -5,7 +5,7 @@ Below, find description of changes made to the original code and discussion.
 
 ## Bonus A - Make the in-class example actually learn something
 <p align="center">
-  <img width="400" height="400" src="./assets/your-image-file.png">
+  <img width="400" height="400" src="https://github.com/user-attachments/assets/39ed1222-abcc-486e-9834-ea843d321526">
 </p>
 
 In general, it seems like the original model doesn't learn much after epoch 2. This is why I changed the n of epochs from 20 to 10, focusing on making changes in the model architecture.
