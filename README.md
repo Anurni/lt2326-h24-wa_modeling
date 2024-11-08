@@ -43,3 +43,4 @@ Making these changes has led to the multiclass accuracy improving up to 28%.
 ```bash
 Accuracy: 0.28412699699401855
 ```
+## Part 1 - Fix class imbalance (5 points)
