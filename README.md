@@ -38,7 +38,7 @@ self.batchnorm2d3 = nn.BatchNorm2d(64) #added
 ```bash
 self.dropout = nn.Dropout(0.1) #changed droupout rate from 0.01 to 0.1
 ```
-Making these changes has led to the multiclass accuracy improving up to 28%.
+Making these changes has led to the multiclass accuracy reaching 28%.
 
 ```bash
 Accuracy: 0.28412699699401855
