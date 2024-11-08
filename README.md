@@ -17,7 +17,7 @@ self.classes = list(sorted(classes))
 ```
 Only making this change already improved the multiclass accuracy by 11%.
 
-Change made in the model architecture: 
+Changes made in the model architecture: 
 
 1. Added more 2 more convolutional layers. Increased the number of output channels.
    
@@ -38,7 +38,7 @@ self.batchnorm2d3 = nn.BatchNorm2d(64) #added
 ```bash
 self.dropout = nn.Dropout(0.1) #changed droupout rate from 0.01 to 0.1
 ```
-Making these changes has led to the multiclass accuracy improving to 27%.
+Making these changes has led to the multiclass accuracy improving up to 28%.
 
 ```bash
 Accuracy: 0.28412699699401855
