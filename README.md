@@ -44,3 +44,7 @@ Making these changes has led to the multiclass accuracy reaching 28%.
 Accuracy: 0.28412699699401855
 ```
 ## Part 1 - Fix class imbalance (5 points)
+
+The classes (the art types) did indeed have a very high class imbalance, for instance Analytical_Cubism only had 15 instances as Impressionism had 2269 instances (average being ~476 instances per class).
+I decided to explore using SMOTE (Synthetic Minority Over-sampling Technique) to adress this issue.
+
