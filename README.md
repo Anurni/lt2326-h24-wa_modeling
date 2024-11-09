@@ -73,5 +73,9 @@ This produced this output:
 this is y_train after the SMOTE process Counter({np.int64(12): 2269, np.int64(21): 1712, np.int64(23): 1157, np.int64(9): 1127, np.int64(20): 946, np.int64(4): 721, np.int64(3): 688, np.int64(24): 679, np.int64(0): 449, np.int64(17): 413, **np.int64(2): 400**, np.int64(5): 400, np.int64(7): 400, np.int64(26): 400, np.int64(16): 400, np.int64(15): 400, np.int64(22): 400, np.int64(14): 400, np.int64(13): 400, np.int64(10): 400, np.int64(11): 400, np.int64(8): 400, np.int64(18): 400, np.int64(6): 400, np.int64(19): 400, np.int64(25): 400, np.int64(1): 400})
 ```
 Here we can see the indices of the classes inside the np.int64, for instance class n 2 (marked with **) refers to Analytical_Cubism (which had only 15 data instances). After oversampling, the class had 400 instances.
-
+What was interesting after inspecting the testing results was that the multiclass accuracy actually went down by around 6%.
+This is probably due to the overfitting to the generated synthetic data. 
+```bash
+Accuracy: 0.22380952537059784
+```
 
