@@ -46,8 +46,32 @@ Accuracy: 0.28412699699401855
 ## Part 1 - Fix class imbalance (5 points)
 
 The classes (the art types) did indeed have a very high class imbalance, for instance Analytical_Cubism only had 15 instances whereas Impressionism had 2269 instances (average being ~476 instances per class).
-I decided to explore using SMOTE (Synthetic Minority Over-sampling Technique) to adress this issue.
-
-![image](https://github.com/user-attachments/assets/4e196f07-b304-4178-8e09-72e26eaa6bf8)
+I decided to explore using SMOTE (Synthetic Minority Over-sampling Technique) to adress this issue. (https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.SMOTE.html)
+My original plan was to use 'auto' as the resampling strategy (resample all classes but the majority class, thus generating synthetic data samples to match the majority class n of instances (2269).
+However, this proved out to be too time- and memory-consuming. That is why I chose the 'dict' as the sampling strategy. All classes with less than 400 data points were to be 'filled' with synthetic data points.
+See below how this was done: 
+```bash
+ sampling_strategy = {}
+    label_counts = Counter(y_train)
+    
+    # we need to check the n of instances per class since oversampling will not work if the n of instances wanted is lower than the existing n of instances  
+    for label in label_counts:
+        if label_counts[label] > 400:
+            sampling_strategy[label] = label_counts[label]  # use existing if n of instances surpasses 400
+        else:
+            sampling_strategy[label] = 400  # use 400 if not
+            
+    smote = SMOTE(sampling_strategy=sampling_strategy, random_state=42)
+    # we need to flatten X_train since SMOTE only accepts dimensions of <=2
+    X_train_flattened = X_train.reshape(X_train.shape[0], -1)
+    X_train_resampled, y_train_resampled = smote.fit_resample(X_train_flattened, y_train)
+    print("done with resampling")
+    print("this is y_train after the SMOTE process", Counter(y_train_resampled))
+```
+This produced this output: 
+```bash
+this is y_train after the SMOTE process Counter({np.int64(12): 2269, np.int64(21): 1712, np.int64(23): 1157, np.int64(9): 1127, np.int64(20): 946, np.int64(4): 721, np.int64(3): 688, np.int64(24): 679, np.int64(0): 449, np.int64(17): 413, **np.int64(2): 400**, np.int64(5): 400, np.int64(7): 400, np.int64(26): 400, np.int64(16): 400, np.int64(15): 400, np.int64(22): 400, np.int64(14): 400, np.int64(13): 400, np.int64(10): 400, np.int64(11): 400, np.int64(8): 400, np.int64(18): 400, np.int64(6): 400, np.int64(19): 400, np.int64(25): 400, np.int64(1): 400})
+```
+Here we can see the indices of the classes inside the np.int64, for instance class n 2 (marked with **) refers to Analytical_Cubism (which had only 15 data instances). After oversampling, the class had 400 instances.
 
 
