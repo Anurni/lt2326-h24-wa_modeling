@@ -78,4 +78,7 @@ This is probably due to the overfitting to the generated synthetic data.
 ```bash
 Accuracy: 0.22380952537059784
 ```
-
+By lowering the threshold for data instances per class to 200 instead of 400 like above (i.e., only generating synthetic data up to 200 data points per class), I managed actually to get the accuracy up to 29%!
+```bash
+Accuracy: 0.2936508059501648
+```
