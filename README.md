@@ -48,3 +48,6 @@ Accuracy: 0.28412699699401855
 The classes (the art types) did indeed have a very high class imbalance, for instance Analytical_Cubism only had 15 instances whereas Impressionism had 2269 instances (average being ~476 instances per class).
 I decided to explore using SMOTE (Synthetic Minority Over-sampling Technique) to adress this issue.
 
+![image](https://github.com/user-attachments/assets/4e196f07-b304-4178-8e09-72e26eaa6bf8)
+
+
