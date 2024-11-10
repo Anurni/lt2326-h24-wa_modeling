@@ -43,7 +43,7 @@ Making these changes has led to the multiclass accuracy reaching 28%.
 ```bash
 Accuracy: 0.28412699699401855
 ```
-## Part 1 - Fix class imbalance (5 points)
+## Part 1 - Fix class imbalance 
 
 The classes (the art types) did indeed have a very high class imbalance, for instance Analytical_Cubism only had 15 instances whereas Impressionism had 2269 instances (average being ~476 instances per class).
 I decided to explore using SMOTE (Synthetic Minority Over-sampling Technique) to adress this issue. (https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.SMOTE.html)
@@ -82,3 +82,5 @@ By lowering the threshold for data instances per class to 200 instead of 400 lik
 ```bash
 Accuracy: 0.2936508059501648
 ```
+## Part 2 - Autoencode and cluster representations
+1. Creating an autoencoder that produces compressed representations of the images in the dataset:
