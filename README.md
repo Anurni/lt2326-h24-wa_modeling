@@ -116,7 +116,7 @@ Accuracy: 0.2936508059501648
         self.deconv2d2 = nn.ConvTranspose2d(32, 16, 2, stride=2, padding=1, output_padding=1)
         #After the second deconvoluting layer, the output dimensions will be (16,209*209) since stride is 2 and the goal is to decompress.
         self.deconv2d3 = nn.ConvTranspose2d(16, 3, 2, stride=2, padding=1)
-        #After the third deconvoluting layer, the output dimensions will be (3, 410*410) since stride is 2 ad the goal is to decompress.
+        #After the third deconvoluting layer, the output dimensions will be (3, 416*416) since stride is 2 ad the goal is to decompress.
    ```
 After the first trials (with applying only the convolutional and deconvolutional layers in addition to the reLU activation function, these training loss were obtained from 10 epochs:
 ![image](https://github.com/user-attachments/assets/d5331457-46d0-42dc-b094-09ad1a85b99b)
