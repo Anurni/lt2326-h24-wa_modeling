@@ -84,3 +84,39 @@ Accuracy: 0.2936508059501648
 ```
 ## Part 2 - Autoencode and cluster representations
 1. Creating an autoencoder that produces compressed representations of the images in the dataset:
+   In order to create compressed representations of the images in the dataset, the model architecture had to be changed.
+   For the convolution, I kept three convolutional layers, but precising that the stride length will be 2 (leading to n of pixels getting divided by half):
+   ```bash
+    # we start with image input dimensions of (3, 416*416) 
+        self.conv2d1 = nn.Conv2d(3, 16, 2, stride=2, padding=1) # n of in channels = 3, n of out channels=16, 2x2 kernel and stride of 2. 
+        #After the first conv layer, the output dimensions will be (16, 209*209) since our stride is 2 and the goal is to compress.
+        
+        self.conv2d2 = nn.Conv2d(16, 32, 2, stride=2, padding=1) # n of in channels = 16, n of out channels=32, 2x2 kernel and stride of 2.
+        #After the second conv layer, the output dimensions will be (32, 105*105) since our stride is 2 and the goal is to compress.
+        
+        self.conv2d3 = nn.Conv2d(32, 64, 2, stride=2, padding=1) #n of in channels=32, n of out channels=64, 2x2 kerkel and stride of 2.
+        #After the third conv layer, the output dimensions will be (64, 53*53) since our stride is 2 and the goal is to compress.
+   ```
+   In order to create the "latent" representations of the images (the compressed ones), the dimensions were flattened:
+   ```bash
+    # compressed representation layer, resulting in a vector with dimension of 1x300
+        self.compressed_rep = nn.Linear(179776, latent_compressed_rep_dim)
+   ```
+   Additionally, to feed these compressed representations to the deconvoluting layers (which will allow us to investigate how well the model 'performs'), we had to define these layers:
+   ```bash
+    # compressed rep into decoder input size
+        self.decoder_input = nn.Linear(latent_compressed_rep_dim, 64*53*53)
+
+        # DECONVOLUTING (decoding) LAYERS ARE DEFINED HERE:
+        ########################################
+
+        # we start with the input image dimensions from self.decoder_input layer, which has 64 channels and 2809 pixels
+        self.deconv2d1 = nn.ConvTranspose2d(64, 32, 2, stride=2, padding=1, output_padding=1)
+        #After the first deconvoluting layer, the output dimensions will be (32,105*105) since stride is 2 and the goal is to decompress.
+        self.deconv2d2 = nn.ConvTranspose2d(32, 16, 2, stride=2, padding=1, output_padding=1)
+        #After the second deconvoluting layer, the output dimensions will be (16,209*209) since stride is 2 and the goal is to decompress.
+        self.deconv2d3 = nn.ConvTranspose2d(16, 3, 2, stride=2, padding=1)
+        #After the third deconvoluting layer, the output dimensions will be (3, 410*410) since stride is 2 ad the goal is to decompress.
+   ```
+After the first trials (with applying only the convolutional and deconvolutional layers in addition to the reLU activation function, these training loss were obtained from 10 epochs:
+![image](https://github.com/user-attachments/assets/d5331457-46d0-42dc-b094-09ad1a85b99b)
