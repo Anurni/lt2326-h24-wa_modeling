@@ -3,7 +3,7 @@
 This repository holds my code for assignment 2 LT2326 (WikiArt peregrinations).
 Below, find description of changes made to the original code and discussion.
 
-## Bonus A - Make the in-class example actually learn something
+### Bonus A - Make the in-class example actually learn something --> (wikiart.py & train.py)
 <p align="center">
   <img width="400" height="400" src="https://github.com/user-attachments/assets/39ed1222-abcc-486e-9834-ea843d321526">
 </p>
@@ -43,7 +43,7 @@ Making these changes has led to the multiclass accuracy reaching 28%.
 ```bash
 Accuracy: 0.28412699699401855
 ```
-## Part 1 - Fix class imbalance 
+### Part 1 - Fix class imbalance --> (train.py)
 
 The classes (the art types) did indeed have a very high class imbalance, for instance Analytical_Cubism only had 15 instances whereas Impressionism had 2269 instances (average being ~476 instances per class).
 I decided to explore using SMOTE (Synthetic Minority Over-sampling Technique) to adress this issue. (https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.SMOTE.html)
@@ -82,8 +82,14 @@ By lowering the threshold for data instances per class to 200 instead of 400 lik
 ```bash
 Accuracy: 0.2936508059501648
 ```
-## Part 2 - Autoencode and cluster representations
-1. Creating an autoencoder that produces compressed representations of the images in the dataset:
+TO TRAIN THE MODEL, SIMPLY RUN THE SCRIPT BY SPECIFYING THE N OF EPOCHS:
+```bash
+python train.py 10
+```
+
+### Part 2 - Autoencode and cluster representations --> (train-encoded_clusters.py & wikiart_encoded_clusters.py)
+
+## 1. Creating an autoencoder that produces compressed representations of the images in the dataset:
    In order to create compressed representations of the images in the dataset, the model architecture had to be changed.
    For the convolution, I kept three convolutional layers, but precising that the stride length will be 2 (leading to n of pixels getting divided by half):
    ```bash
@@ -121,8 +127,60 @@ Accuracy: 0.2936508059501648
 After the first trials (with applying only the convolutional and deconvolutional layers in addition to the reLU activation function, these training loss were obtained from 10 epochs:
 ![image](https://github.com/user-attachments/assets/721ac23e-b8e8-4bae-852a-d6479f4bdcec)
 
+TO TRAIN THE ENCODER MODEL, SIMPLY RUN WITH SPECIFYING THE N OF EPOCHS WANTED:
+```bash
+python train-encoded_clusters.py 10
+```
 
-2. Saving and clustering the representations using clustering methods from scikit-learn:
+## 2. Saving and clustering the representations using clustering methods from scikit-learn  --> (test-encoded_clusters.py)
    In this part, I will use the latent (compressed) representations of the images to plot a cluster graph in order to see if the model has learnt to cluster different art styles.
+   The encoded representations were retrieved by passing the inputs through only the encoder of the model:
+   ```bash
+    compressed_image_representations = []
+    for batch_id, batch in enumerate(tqdm.tqdm(loader)):
+        X, y = batch
+        #y = y.to(device)
+        output = model(X, setting="encode") #we are only passing the input through the encoder now to get the compressed representation
+        compressed_image_representations.append(output.detach().cpu().numpy().reshape(output.size(0), -1)) # we need to flatten the representation
+
+    compressed_image_representations = np.vstack(compressed_image_representations) #stacking the batches
+   ```
    As the clustering method I chose K-means due to its simplicity, specifying the n of clusters as 27 (n of classes in our dataset).
+   The compressed representations were dimensionally reduced with PCA.
+
+   Here is the resulting plotting of the clusters (centroids of the clusters are named). These results were obtained from the model trained with 10 epochs.
+   ![image](https://github.com/user-attachments/assets/eb73aac0-b82e-4b7b-91dc-18b83195925e)
+
+We can indeed observe a rather nice clustering of the art styles, for instance Pointillism is a clearly separated cluster on its own on the right of the graph. Cubism and its subcategories Analytical Cubism and Synthetic Cubism are close to each other, and this goes for late and early renaissance too. Pop Art and Colour Field painting are both art styles with bright colours, distinct shapes, which makes sense looking at their neighboring clusters. 
+
+  Here are the class labels of our dataset:
+   0 : 'Abstract_Expressionism', 
+   1: 'Action_painting', 
+   2: 'Analytical_Cubism', 
+   3: 'Art_Nouveau_Modern', 
+   4: 'Baroque', 
+   5: 'Color_Field_Painting', 
+   6: 'Contemporary_Realism', 
+   7: 'Cubism', 
+   8: 'Early_Renaissance', 
+   9: 'Expressionism', 
+   10: 'Fauvism', 
+   11: 'High_Renaissance', 
+   12: 'Impressionism',
+   13: 'Mannerism_Late_Renaissance', 
+   14: 'Minimalism', 
+   15: 'Naive_Art_Primitivism', 
+   16: 'New_Realism', 
+   17: 'Northern_Renaissance', 
+   18: 'Pointillism', 
+   19: 'Pop_Art', 
+   20: 'Post_Impressionism',
+   21: 'Realism', 
+   22: 'Rococo', 
+   23: 'Romanticism',
+   24: 'Symbolism',
+   25: 'Synthetic_Cubism',
+   26: 'Ukiyo_e'
+   
+
    
