@@ -119,7 +119,8 @@ Accuracy: 0.2936508059501648
         #After the third deconvoluting layer, the output dimensions will be (3, 416*416) since stride is 2 ad the goal is to decompress.
    ```
 After the first trials (with applying only the convolutional and deconvolutional layers in addition to the reLU activation function, these training loss were obtained from 10 epochs:
-![image](https://github.com/user-attachments/assets/d5331457-46d0-42dc-b094-09ad1a85b99b)
+![image](https://github.com/user-attachments/assets/721ac23e-b8e8-4bae-852a-d6479f4bdcec)
+
 
 2. Saving and clustering the representations using clustering methods from scikit-learn:
    In this part, I will use the latent (compressed) representations of the images to plot a cluster graph in order to see if the model has learnt to cluster different art styles.
