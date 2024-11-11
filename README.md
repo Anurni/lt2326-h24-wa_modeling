@@ -82,7 +82,7 @@ By lowering the threshold for data instances per class to 200 instead of 400 lik
 ```bash
 Accuracy: 0.2936508059501648
 ```
-TO TRAIN THE MODEL, SIMPLY RUN THE SCRIPT BY SPECIFYING THE N OF EPOCHS:
+TO TRAIN THE MODEL, SIMPLY RUN THE SCRIPT BY SPECIFYING THE N OF EPOCHS: (note that running this script will take a few minutes due to the upsampling)
 ```bash
 python train.py 10
 ```
