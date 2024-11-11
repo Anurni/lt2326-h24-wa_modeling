@@ -3,7 +3,7 @@
 This repository holds my code for assignment 2 LT2326 (WikiArt peregrinations).
 Below, find description of changes made to the original code and discussion.
 
-### Bonus A - Make the in-class example actually learn something --> (wikiart.py & train.py)
+### Bonus A - Make the in-class example actually learn something --> (wikiart_classification/wikiart.py & train.py)
 <p align="center">
   <img width="400" height="400" src="https://github.com/user-attachments/assets/39ed1222-abcc-486e-9834-ea843d321526">
 </p>
@@ -43,7 +43,7 @@ Making these changes has led to the multiclass accuracy reaching 28%.
 ```bash
 Accuracy: 0.28412699699401855
 ```
-### Part 1 - Fix class imbalance --> (train.py)
+### Part 1 - Fix class imbalance --> (wikiart_classification/train.py)
 
 The classes (the art types) did indeed have a very high class imbalance, for instance Analytical_Cubism only had 15 instances whereas Impressionism had 2269 instances (average being ~476 instances per class).
 I decided to explore using SMOTE (Synthetic Minority Over-sampling Technique) to adress this issue. (https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.SMOTE.html)
@@ -87,7 +87,7 @@ TO TRAIN THE MODEL, SIMPLY RUN THE SCRIPT BY SPECIFYING THE N OF EPOCHS:
 python train.py 10
 ```
 
-### Part 2 - Autoencode and cluster representations --> (train-encoded_clusters.py & wikiart_encoded_clusters.py)
+### Part 2 - Autoencode and cluster representations --> (wikiart_encoding/train-encoded_clusters.py & wikiart_encoded_clusters.py)
 
 ## 1. Creating an autoencoder that produces compressed representations of the images in the dataset:
    In order to create compressed representations of the images in the dataset, the model architecture had to be changed.
@@ -132,7 +132,7 @@ TO TRAIN THE ENCODER MODEL, SIMPLY RUN WITH SPECIFYING THE N OF EPOCHS WANTED:
 python train-encoded_clusters.py 10
 ```
 
-## 2. Saving and clustering the representations using clustering methods from scikit-learn  --> (test-encoded_clusters.py)
+## 2. Saving and clustering the representations using clustering methods from scikit-learn  --> (wikiart_encoding/test-encoded_clusters.py)
    In this part, I will use the latent (compressed) representations of the images to plot a cluster graph in order to see if the model has learnt to cluster different art styles.
    The encoded representations were retrieved by passing the inputs through only the encoder of the model:
    ```bash
@@ -148,7 +148,7 @@ python train-encoded_clusters.py 10
    As the clustering method I chose K-means due to its simplicity, specifying the n of clusters as 27 (n of classes in our dataset).
    The compressed representations were dimensionally reduced with PCA.
 
-   Here is the resulting plotting of the clusters (centroids of the clusters are named). These results were obtained from the model trained with 10 epochs.
+   Here is the resulting plotting of the clusters (centroids of the clusters are named). These results were obtained from the model trained with 10 epochs and learning rate 0.001.
    ![image](https://github.com/user-attachments/assets/eb73aac0-b82e-4b7b-91dc-18b83195925e)
 
 We can indeed observe a rather nice clustering of the art styles, for instance Pointillism is a clearly separated cluster on its own on the right of the graph. Cubism and its subcategories Analytical Cubism and Synthetic Cubism are close to each other, and this goes for late and early renaissance too. Pop Art and Colour Field painting are both art styles with bright colours, distinct shapes, which makes sense looking at their neighboring clusters. 
