@@ -38,11 +38,8 @@ self.batchnorm2d3 = nn.BatchNorm2d(64) #added
 ```bash
 self.dropout = nn.Dropout(0.1) #changed droupout rate from 0.01 to 0.1
 ```
-Making these changes has led to the multiclass accuracy reaching 28%.
+Making these changes improved the multiclass accuracy considerably.
 
-```bash
-Accuracy: 0.28412699699401855
-```
 ### Part 1 - Fix class imbalance --> (wikiart_classification/train.py)
 
 The classes (the art types) did indeed have a very high class imbalance, for instance Analytical_Cubism only had 15 instances whereas Impressionism had 2269 instances (average being ~476 instances per class).
@@ -78,9 +75,9 @@ This is probably due to the overfitting to the generated synthetic data.
 ```bash
 Accuracy: 0.22380952537059784
 ```
-By lowering the threshold for data instances per class to 200 instead of 400 like above (i.e., only generating synthetic data up to 200 data points per class), I managed actually to get the accuracy up to 29%!
+By lowering the threshold for data instances per class to 200 instead of 400 like above (i.e., only generating synthetic data up to 200 data points per class), I managed actually to get the accuracy up to 27-29%!
 ```bash
-Accuracy: 0.2936508059501648
+Accuracy: 0.2936508059501648 #although sometimes stayed at 0.27
 ```
 TO TRAIN THE MODEL, SIMPLY RUN THE SCRIPT BY SPECIFYING THE N OF EPOCHS: (note that running this script will take a few minutes due to the upsampling)
 ```bash
